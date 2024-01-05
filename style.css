@@ -1,0 +1,19 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 100dvh;
+}
+
+#canvas {
+  background-color: #c2c2c2;
+  border-radius: 4px;
+}
