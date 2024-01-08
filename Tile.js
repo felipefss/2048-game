@@ -48,12 +48,14 @@ export class Tile {
     this.value = 2;
   }
 
+  update(dt) {}
+
   /**
    * @param {CanvasRenderingContext2D} context
    */
   draw(context) {
-    const x = this.i * this.game.squareSide + this.game.padding;
-    const y = this.j * this.game.squareSide + this.game.padding;
+    const x = this.j * this.game.squareSide + this.game.padding;
+    const y = this.i * this.game.squareSide + this.game.padding;
 
     context.beginPath();
     context.fillStyle = tileColorMap[this.value] ?? tileColorMap[0];
