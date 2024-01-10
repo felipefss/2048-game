@@ -1,6 +1,6 @@
 import './style.css';
 
-import { Game } from './Game';
+import { Game } from './src/Game';
 
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
