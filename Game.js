@@ -17,11 +17,12 @@ export class Game {
     this.keyPressed = null;
 
     // Add 2 random tiles
-    // this.tiles[1][0] = new Tile(this, 1, 0);
-    // this.tiles[1][1] = new Tile(this, 1, 1);
-    // this.tiles[1][2] = new Tile(this, 1, 2);
-    this.addTile();
-    this.addTile();
+    this.tiles[1][0] = new Tile(this, 1, 0);
+    this.tiles[1][1] = new Tile(this, 1, 1);
+    this.tiles[1][2] = new Tile(this, 1, 2);
+    this.tiles[1][3] = new Tile(this, 1, 3);
+    // this.addTile();
+    // this.addTile();
     console.log(this.tiles);
 
     // Events
@@ -117,14 +118,55 @@ export class Game {
 
         // Pad end array with null
         let size = newRow.length;
-        while (size > 0) {
+        while (size < 4) {
           newRow.push(null);
-          size--;
+          size++;
         }
 
         this.tiles[row] = newRow.toReversed();
       }
       this.keyPressed = null;
+      console.log(this.tiles);
+    } else if (this.keyPressed === 'left') {
+      for (let row = 0; row < this.tiles.length; row++) {
+        // Push all array items to the left
+        const sortedRow = this.tiles[row].toSorted((a, b) => {
+          if (a == null && b != null) {
+            return 1;
+          }
+          if (a != null && b == null) {
+            return -1;
+          }
+          return 0;
+        });
+
+        // Reverse sorted array and sum pairs of equal-valued tiles
+        let i = 0;
+        const newRow = sortedRow.reduce((output, current) => {
+          if (current) {
+            if (!output.length || current.value !== output[i - 1].value) {
+              current.j = i;
+              output.push(current);
+              i++;
+            } else if (current.value === output[i - 1].value) {
+              output[i - 1].value *= 2;
+            }
+          }
+
+          return output;
+        }, []);
+
+        // Pad end array with null
+        let size = newRow.length;
+        while (size < 4) {
+          newRow.push(null);
+          size++;
+        }
+
+        this.tiles[row] = newRow;
+      }
+      this.keyPressed = null;
+      console.log(this.tiles);
     }
 
     // Draw playing tiles
