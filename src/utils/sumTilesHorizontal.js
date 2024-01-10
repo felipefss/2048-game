@@ -56,7 +56,7 @@ export function sumToLeft(tiles) {
     return 0;
   });
 
-  // Reverse sorted array and sum pairs of equal-valued tiles
+  // Sum pairs of equal-valued tiles
   let i = 0;
   const newRow = sortedRow.reduce((output, current) => {
     if (current) {

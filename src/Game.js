@@ -18,10 +18,10 @@ export class Game {
     this.keyPressed = null;
 
     // Add 2 random tiles
+    this.tiles[0][0] = new Tile(this, 0, 0);
     this.tiles[1][0] = new Tile(this, 1, 0);
-    this.tiles[1][1] = new Tile(this, 1, 1);
-    this.tiles[1][2] = new Tile(this, 1, 2);
-    this.tiles[1][3] = new Tile(this, 1, 3);
+    this.tiles[2][0] = new Tile(this, 2, 0);
+    this.tiles[3][0] = new Tile(this, 3, 0);
     // this.addTile();
     // this.addTile();
     console.log(this.tiles);
@@ -94,6 +94,49 @@ export class Game {
         break;
       case 'left':
         this.tiles = this.tiles.map((row) => sumToLeft(row));
+        this.keyPressed = null;
+        break;
+      case 'up':
+        for (let col = 0; col < 4; col++) {
+          const column = this.tiles.map((row) => row[col]);
+          // Push all array items to the left
+          const sortedColumn = column.toSorted((a, b) => {
+            if (a == null && b != null) {
+              return 1;
+            }
+            if (a != null && b == null) {
+              return -1;
+            }
+            return 0;
+          });
+
+          // Sum pairs of equal-valued tiles
+          let i = 0;
+          const newColumn = sortedColumn.reduce((output, current) => {
+            if (current) {
+              if (!output.length || current.value !== output[i - 1].value) {
+                current.i = i;
+                output.push(current);
+                i++;
+              } else if (current.value === output[i - 1].value) {
+                output[i - 1].value *= 2;
+              }
+            }
+
+            return output;
+          }, []);
+
+          // Pad end array with null
+          let size = newColumn.length;
+          while (size < 4) {
+            newColumn.push(null);
+            size++;
+          }
+          for (let row = 0; row < 4; row++) {
+            this.tiles[row][col] = newColumn[row];
+          }
+        }
+        console.log(this.tiles);
         this.keyPressed = null;
         break;
     }
