@@ -22,14 +22,9 @@ export class Game {
     this.highestTile = 2;
     this.gameOver = false;
 
-    // this.tiles[0][0] = new Tile(this, 0, 0);
-    // this.tiles[1][0] = new Tile(this, 1, 0);
-    // this.tiles[2][0] = new Tile(this, 2, 0);
-    // this.tiles[3][0] = new Tile(this, 3, 0);
     // Add 2 random tiles
     this.addTile();
     this.addTile();
-    // console.log(this.tiles);
 
     // Events
     document.addEventListener('keydown', (e) => {
@@ -130,7 +125,7 @@ export class Game {
       this.keyPressed = false;
       this.timer = 0;
 
-      if (this.highestTile === 4) {
+      if (this.highestTile === 2048) {
         this.gameOver = true;
       }
     }
