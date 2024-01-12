@@ -19,6 +19,8 @@ export class Game {
     this.timer = 0;
     const fps = 40;
     this.interval = 1000 / fps;
+    this.highestTile = 2;
+    this.gameOver = false;
 
     // this.tiles[0][0] = new Tile(this, 0, 0);
     // this.tiles[1][0] = new Tile(this, 1, 0);
@@ -114,6 +116,10 @@ export class Game {
         if (tile) {
           tile.draw(context);
           tile.update();
+
+          if (tile.value > this.highestTile) {
+            this.highestTile = tile.value;
+          }
         }
       }
     });
@@ -123,6 +129,10 @@ export class Game {
       this.addTile();
       this.keyPressed = false;
       this.timer = 0;
+
+      if (this.highestTile === 4) {
+        this.gameOver = true;
+      }
     }
 
     this.timer += dt;
