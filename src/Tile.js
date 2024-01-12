@@ -29,12 +29,22 @@ export class Tile {
     this.game = game;
     this.i = i;
     this.j = j;
+    this.new_i = i;
+    this.new_j = j;
+    this.speed = 0.1;
 
     // Initial value
     this.value = 2;
   }
 
-  update(dt) {}
+  update() {
+    if (this.i !== this.new_i) {
+      this.i += (this.new_i - this.i) * this.speed;
+    }
+    if (this.j !== this.new_j) {
+      this.j += (this.new_j - this.j) * this.speed;
+    }
+  }
 
   /**
    * @param {CanvasRenderingContext2D} context

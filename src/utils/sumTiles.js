@@ -1,10 +1,10 @@
 import { Tile } from '../Tile';
 
 const directionMap = {
-  up: 'i',
-  down: 'i',
-  left: 'j',
-  right: 'j',
+  up: 'new_i',
+  down: 'new_i',
+  left: 'new_j',
+  right: 'new_j',
 };
 
 /**

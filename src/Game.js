@@ -15,6 +15,10 @@ export class Game {
       Array.from({ length: 4 }, () => null),
       Array.from({ length: 4 }, () => null),
     ];
+    this.keyPressed = false;
+    this.timer = 0;
+    const fps = 40;
+    this.interval = 1000 / fps;
 
     // this.tiles[0][0] = new Tile(this, 0, 0);
     // this.tiles[1][0] = new Tile(this, 1, 0);
@@ -23,7 +27,7 @@ export class Game {
     // Add 2 random tiles
     this.addTile();
     this.addTile();
-    console.log(this.tiles);
+    // console.log(this.tiles);
 
     // Events
     document.addEventListener('keydown', (e) => {
@@ -37,9 +41,11 @@ export class Game {
             this.tiles[row][col] = newColumn[row];
           }
         }
+        this.keyPressed = true;
       }
       if (e.key === 'ArrowRight') {
         this.tiles = this.tiles.map((row) => sumArrayToRight(row));
+        this.keyPressed = true;
       }
       if (e.key === 'ArrowDown') {
         for (let col = 0; col < 4; col++) {
@@ -51,11 +57,12 @@ export class Game {
             this.tiles[row][col] = newColumn[row];
           }
         }
+        this.keyPressed = true;
       }
       if (e.key === 'ArrowLeft') {
         this.tiles = this.tiles.map((row) => sumArrayToLeft(row));
+        this.keyPressed = true;
       }
-      this.addTile();
     });
   }
 
@@ -80,6 +87,7 @@ export class Game {
   /**
    *
    * @param {CanvasRenderingContext2D} context
+   * @param {number} dt - Delta time
    */
   render(context, dt) {
     context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -105,9 +113,18 @@ export class Game {
       for (const tile of row) {
         if (tile) {
           tile.draw(context);
-          // tile.update(dt);
+          tile.update();
         }
       }
     });
+
+    // Add new tile if key was pressed
+    if (this.keyPressed && this.timer > this.interval) {
+      this.addTile();
+      this.keyPressed = false;
+      this.timer = 0;
+    }
+
+    this.timer += dt;
   }
 }
